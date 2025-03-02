@@ -1,13 +1,21 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView
 from .models import Region, Hospital, Department, Doctor
+from django.http import JsonResponse
+from django.views.generic import TemplateView, CreateView
 
 
 # **1. Region Views**
-class RegionListView(ListView):
-    model = Region
-    template_name = 'blog.html'
-    context_object_name = 'regions'
+class RegionListView(TemplateView):
+    template_name = 'navbar.html'
+
+    def get_context_data(self,  **kwargs):
+        cnt = super().get_context_data(**kwargs)
+        cnt['regions'] = Region.objects.order_by('id')
+        print("Regions:", cnt['regions'])
+        print('asassasaa')# Konsolga chiqarib ko‘rish
+        return cnt
+
 
 
 # **2. Hospital Views**

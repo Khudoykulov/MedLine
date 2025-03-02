@@ -10,7 +10,7 @@ app_name = 'hospital'
 
 urlpatterns = [
     # **Region URLs**
-    path('', RegionListView.as_view(), name='region-list'),
+    path('', HospitalListView.as_view(), name='region-list'),
 
     # **Hospital URLs**
     # path('hospitals/', HospitalListView.as_view(), name='hospital-list'),
