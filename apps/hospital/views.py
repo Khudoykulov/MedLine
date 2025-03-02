@@ -5,6 +5,7 @@ from django.http import JsonResponse
 from django.views.generic import TemplateView, CreateView
 import json
 
+
 class Home(TemplateView):
     template_name = 'index.html'
 
@@ -77,6 +78,15 @@ class DoctorDetailView(DetailView):
 class HospitalMapListView(View):
     template_name = 'google_map.html'
 
+    def get_center(self, hospitals):
+        """Hospitallar orqali markazni aniqlash"""
+        if hospitals.exists():
+            first_hospital = hospitals.first()  # Birinchi hospital koordinatasini olish
+            if first_hospital.latitude and first_hospital.longitude:
+                return {"lat": first_hospital.latitude, "lng": first_hospital.longitude}
+
+        return {"lat": 41.2995, "lng": 69.2401}
+
     def get(self, request, *args, **kwargs):
         region_name = request.GET.get('region')
 
@@ -84,10 +94,10 @@ class HospitalMapListView(View):
             hospitals = Hospital.objects.filter(region__name=region_name)  # Faqat tanlangan regionni olish
         else:
             hospitals = Hospital.objects.all()
-
+        center = self.get_center(hospitals)  # Markazni aniqlash
         hospitals_data = list(hospitals.values('name', 'latitude', 'longitude', 'address'))  # JSON uchun ma'lumot
-        print(hospitals_data)
         ctx = {
-            'hospitals_json': json.dumps(hospitals_data, ensure_ascii=False),  # JSON sifatida template-ga uzatamiz
+            'map_center': json.dumps(center),  # Markazni JSON sifatida template-ga uzatamiz
+            'hospitals_json': json.dumps(hospitals_data, ensure_ascii=False)  # JSON sifatida template-ga uzatamiz
         }
         return render(request, 'google_map.html', ctx)
