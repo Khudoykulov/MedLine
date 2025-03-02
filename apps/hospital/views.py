@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView, View
 from .models import Region, Hospital, Department, Doctor
 from django.http import JsonResponse
 from django.views.generic import TemplateView, CreateView
-
+import json
 
 class Home(TemplateView):
     template_name = 'index.html'
@@ -39,10 +39,13 @@ class HospitalListView(View):
         return render(request, 'blog.html', ctx)
 
 
-class HospitalDetailView(DetailView):
-    model = Hospital
-    template_name = 'blog.html'
-    context_object_name = 'hospital'
+def hospital_detail(request, slug):
+    hospital = get_object_or_404(Hospital, slug=slug)
+    context = {
+        'hospital': hospital,
+
+    }
+    return render(request, 'single-blog.html', context)
 
 
 # **3. Department Views**
@@ -69,3 +72,22 @@ class DoctorDetailView(DetailView):
     model = Doctor
     template_name = 'doctor_detail.html'
     context_object_name = 'doctor'
+
+
+class HospitalMapListView(View):
+    template_name = 'google_map.html'
+
+    def get(self, request, *args, **kwargs):
+        region_name = request.GET.get('region')
+
+        if region_name:
+            hospitals = Hospital.objects.filter(region__name=region_name)  # Faqat tanlangan regionni olish
+        else:
+            hospitals = Hospital.objects.all()
+
+        hospitals_data = list(hospitals.values('name', 'latitude', 'longitude', 'address'))  # JSON uchun ma'lumot
+        print(hospitals_data)
+        ctx = {
+            'hospitals_json': json.dumps(hospitals_data, ensure_ascii=False),  # JSON sifatida template-ga uzatamiz
+        }
+        return render(request, 'google_map.html', ctx)

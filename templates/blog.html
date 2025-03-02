@@ -35,7 +35,7 @@
                                 <img src="{{ hospital.hospital_image.first.image.url }}" alt="Hospital Image">
                                 <!-- Post Date -->
                                 <div class="post-date">
-                                    <a href="#">{{ hospital.region }}</a>
+                                    <a href="{% url 'hospital:hospital_detail' hospital.slug %}">{{ hospital.region }}</a>
                                 </div>
                             </div>
                             <!-- Post Content -->
@@ -43,9 +43,9 @@
                                 <div class="post-author">
 <!--                                    <a href="#"><img src="{% static 'img/blog-img/p1.jpg' %}" alt=""></a>-->
                                 </div>
-                                <a href="#" class="headline">{{ hospital.name }}</a>
+                                <a href="{% url 'hospital:hospital_detail' hospital.slug %}" class="headline">{{ hospital.name }}</a>
                                 <p>{{ hospital.description }}</p>
-                                <a href="#" class="comments"> {{ hospital.phone }}</a>
+                                <a href="{% url 'hospital:hospital_detail' hospital.slug %}" class="comments"> {{ hospital.phone }}</a>
                             </div>
                         </div>
                     </div>

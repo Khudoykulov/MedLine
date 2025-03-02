@@ -19,7 +19,7 @@ class HospitalAdmin(admin.ModelAdmin):
     list_display = ('id', 'name', 'region', 'phone', 'created_date')
     search_fields = ('name', 'region__name')
     list_filter = ('region',)
-    readonly_fields = ('created_date', 'updated_date')
+    readonly_fields = ('created_date', 'updated_date', 'slug')
 
 
 @admin.register(Department)
