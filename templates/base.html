@@ -22,13 +22,27 @@
 <body>
 
 
+{% if messages %}
+	{% include 'messages.html' %}
+
+{% else %}
+    {% include 'navbar.html' %}
+{% endif %}
+
+
+
+{% block content %}
+
+
+
+{% endblock %}
 
 
 
 
 
 
-
+{% include 'footer.html' %}
 
 
 <script src="{% static 'styles/js/jquery/jquery-2.2.4.min.js' %}"></script>
