@@ -26,11 +26,15 @@ class HospitalListView(View):
     template_name = 'blog.html'
 
     def get(self, request, *args, **kwargs):
-        hospitals = Hospital.objects.all()
+        region_name = request.GET.get('region')
+
+        if region_name:
+            hospitals = Hospital.objects.filter(region__name=region_name)  # Faqat tanlangan regionni olish
+        else:
+            hospitals = Hospital.objects.all()
 
         ctx = {
             'hospitals': hospitals,
-
         }
         return render(request, 'blog.html', ctx)
 

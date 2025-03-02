@@ -35,18 +35,17 @@
                                 <img src="{{ hospital.hospital_image.first.image.url }}" alt="Hospital Image">
                                 <!-- Post Date -->
                                 <div class="post-date">
-                                    <a href="#">Jan 23, 2018</a>
+                                    <a href="#">{{ hospital.region }}</a>
                                 </div>
                             </div>
                             <!-- Post Content -->
                             <div class="post-content">
                                 <div class="post-author">
-                                    <a href="#"><img src="{% static 'img/blog-img/p1.jpg' %}" alt=""></a>
+<!--                                    <a href="#"><img src="{% static 'img/blog-img/p1.jpg' %}" alt=""></a>-->
                                 </div>
-                                <a href="#" class="headline">New drog release soon</a>
-                                <p>Dolor sit amet, consecte tuer adipiscing elit, sed diam nonummy nibh euismod
-                                    tincidunt.</p>
-                                <a href="#" class="comments">3 Comments</a>
+                                <a href="#" class="headline">{{ hospital.name }}</a>
+                                <p>{{ hospital.description }}</p>
+                                <a href="#" class="comments"> {{ hospital.phone }}</a>
                             </div>
                         </div>
                     </div>

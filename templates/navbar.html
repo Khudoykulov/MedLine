@@ -78,23 +78,29 @@
                                         const regionItems = document.querySelectorAll(".region-item");
                                         const selectedRegion = document.getElementById("selectedRegion");
 
-                                        // Saqlangan viloyatni localStorage dan olish
+                                        // LocalStorage dan avvalgi tanlangan regionni olish
                                         const savedRegion = localStorage.getItem("selectedRegion");
                                         if (savedRegion) {
                                             selectedRegion.textContent = savedRegion;
                                         }
 
-                                        // Har bir viloyatni bosganda saqlash
+                                        // Region tanlanganida URL`ni yangilash va LocalStorage`ga saqlash
                                         regionItems.forEach(item => {
                                             item.addEventListener("click", function (event) {
                                                 event.preventDefault();
                                                 const regionName = this.getAttribute("data-region");
                                                 selectedRegion.textContent = regionName;
                                                 localStorage.setItem("selectedRegion", regionName);
+
+                                                // URL`ni yangilash
+                                                const currentUrl = new URL(window.location);
+                                                currentUrl.searchParams.set('region', regionName);
+                                                window.location.href = currentUrl.toString();  // Sahifani yangilash
                                             });
                                         });
                                     });
                                 </script>
+
 
                             </div>
                         </nav>
