@@ -1,6 +1,6 @@
 from django.urls import path
 from .views import (
-    RegionListView,
+    Home,
     HospitalListView, HospitalDetailView,
     DepartmentListView, DepartmentDetailView,
     DoctorListView, DoctorDetailView
@@ -10,7 +10,8 @@ app_name = 'hospital'
 
 urlpatterns = [
     # **Region URLs**
-    path('', HospitalListView.as_view(), name='region-list'),
+    path('home/', Home.as_view(), name='home'),
+    path('hospital/', HospitalListView.as_view(), name='hospital_list'),
 
     # **Hospital URLs**
     # path('hospitals/', HospitalListView.as_view(), name='hospital-list'),

@@ -1,33 +1,43 @@
 from django.shortcuts import render
-from django.views.generic import ListView, DetailView
+from django.views.generic import ListView, DetailView, View
 from .models import Region, Hospital, Department, Doctor
 from django.http import JsonResponse
 from django.views.generic import TemplateView, CreateView
 
 
+class Home(TemplateView):
+    template_name = 'index.html'
+
+
 # **1. Region Views**
-class RegionListView(TemplateView):
-    template_name = 'navbar.html'
-
-    def get_context_data(self,  **kwargs):
-        cnt = super().get_context_data(**kwargs)
-        cnt['regions'] = Region.objects.order_by('id')
-        print("Regions:", cnt['regions'])
-        print('asassasaa')# Konsolga chiqarib ko‘rish
-        return cnt
-
+# class RegionListView(TemplateView):
+#     template_name = 'navbar.html'
+#
+#     def get_context_data(self,  **kwargs):
+#         cnt = super().get_context_data(**kwargs)
+#         cnt['regions'] = Region.objects.order_by('id')
+#         print("Regions:", cnt['regions'])
+#         print('asassasaa')# Konsolga chiqarib ko‘rish
+#         return cnt
 
 
 # **2. Hospital Views**
-class HospitalListView(ListView):
-    model = Hospital
+class HospitalListView(View):
     template_name = 'blog.html'
-    context_object_name = 'hospitals'
+
+    def get(self, request, *args, **kwargs):
+        hospitals = Hospital.objects.all()
+
+        ctx = {
+            'hospitals': hospitals,
+
+        }
+        return render(request, 'blog.html', ctx)
 
 
 class HospitalDetailView(DetailView):
     model = Hospital
-    template_name = 'index.html'
+    template_name = 'blog.html'
     context_object_name = 'hospital'
 
 
